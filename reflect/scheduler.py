@@ -24,12 +24,6 @@ if not _logger.handlers:
     _fh.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s',
                                         datefmt='%Y-%m-%d %H:%M'))
     _logger.addHandler(_fh)
-    # Force flush on every log write for real-time monitoring
-    _orig_emit = _fh.emit
-    def _emit_flush(record):
-        _orig_emit(record)
-        _fh.flush()
-    _fh.emit = _emit_flush
 
 # 默认最大延迟窗口（小时），超过此时间不触发
 DEFAULT_MAX_DELAY = 6
