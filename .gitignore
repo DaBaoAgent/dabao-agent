@@ -1,0 +1,51 @@
+# 密钥文件 — 用户需自行创建
+mykey.py
+mykey.json
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# 虚拟环境
+.venv/
+venv/
+env/
+
+# 构建产物
+*.egg-info/
+dist/
+build/
+
+# 运行时临时文件
+temp/
+*.log
+
+# 用户记忆与数据 (运行时生成)
+memory/global_mem.txt
+memory/global_mem_insight.txt
+memory/file_access_stats.json
+memory/L4_raw_sessions/*.txt
+memory/L4_raw_sessions/*.zip
+
+# 定时任务定义 (用户自定义)
+sche_tasks/*.json
+sche_tasks/*.log
+sche_tasks/done/
+sche_tasks/scripts/
+
+# 工具使用历史 (运行时生成)
+assets/tool_usable_history.json
+
+# 包管理器锁文件 (可由 uv sync 重新生成)
+uv.lock
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
