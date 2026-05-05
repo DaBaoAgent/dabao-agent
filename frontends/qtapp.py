@@ -1,4 +1,4 @@
-"""
+﻿"""
 桌面前端单文件版 – PySide6 聊天面板 + 悬浮按钮   thanks to GaoZhiCheng
 依赖: pip install PySide6
 可选: pip install markdown  (Markdown 渲染)
@@ -1989,7 +1989,7 @@ def main():
     panel.show()
 
     scr = QApplication.primaryScreen().availableGeometry()
-    print(f"[GenericAgent] 启动成功")
+    print(f"[DabaoAgent] 启动成功")
     print(f"  屏幕分辨率: {scr.width()}x{scr.height()}")
     print(f"  悬浮按钮: ({button.x()}, {button.y()})")
     print(f"  聊天面板: ({panel.x()}, {panel.y()})")
