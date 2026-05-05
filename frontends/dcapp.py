@@ -1,4 +1,4 @@
-# Discord Bot Frontend for GenericAgent
+﻿# Discord Bot Frontend for DabaoAgent
 # ⚠️ 需要在 Discord Developer Portal 开启 "Message Content Intent"
 #   Bot → Privileged Gateway Intents → MESSAGE CONTENT INTENT → 打开
 # pip install discord.py
