@@ -1,8 +1,8 @@
-# AI install hint: choose deps by OS/env + needed ui/bot. do NOT install all.
+﻿# AI install hint: choose deps by OS/env + needed ui/bot. do NOT install all.
 # minimal core first; missing packages can be installed on demand.
 
 [project]
-name = "miniagent"
+name = "DabaoAgent"
 version = "0.1.0"
 description = "Minimalist self-evolving autonomous agent framework"
 readme = "README.md"
