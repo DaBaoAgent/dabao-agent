@@ -1,12 +1,12 @@
-#!/bin/bash
+﻿#!/bin/bash
 
-# GenericAgent macOS Desktop App Installation Script
+# DabaoAgent macOS Desktop App Installation Script
 #
 # Usage:
 #   bash assets/install-macos-app.sh [--auto]
 #
 # This installer creates a small .app bundle that opens Terminal and runs
-# `python3 launch.pyw` from the current GenericAgent checkout.
+# `python3 launch.pyw` from the current DabaoAgent checkout.
 
 if [ -z "${BASH_VERSION}" ]; then
     if command -v bash >/dev/null 2>&1; then
@@ -32,7 +32,7 @@ for arg in "$@"; do
     esac
 done
 
-APP_NAME="GenericAgent"
+APP_NAME="DabaoAgent"
 PRIMARY_INSTALL_DIR="/Applications"
 FALLBACK_INSTALL_DIR="${HOME}/Applications"
 
@@ -43,7 +43,7 @@ LAUNCH_SCRIPT="${PROJECT_ROOT}/launch.pyw"
 
 echo -e "${CYAN}"
 echo "╔═══════════════════════════════════════════════════════════╗"
-echo "║   GenericAgent — macOS Desktop App Installer             ║"
+echo "║   DabaoAgent — macOS Desktop App Installer             ║"
 echo "╚═══════════════════════════════════════════════════════════╝"
 echo -e "${NC}"
 
@@ -84,7 +84,7 @@ fi
 
 if [ "${AUTO_MODE}" = false ]; then
     echo ""
-    echo "This will install a desktop app that launches GenericAgent"
+    echo "This will install a desktop app that launches DabaoAgent"
     echo "from Spotlight, Launchpad, or the Applications folder."
     echo ""
     if [ -n "${existing_app_path}" ]; then
@@ -117,7 +117,7 @@ APPLESCRIPT
 
 osacompile -o "${TMP_DIR}/${APP_NAME}.app" "${TMP_DIR}/${APP_NAME}.applescript"
 
-log_info "Applying GenericAgent icon..."
+log_info "Applying DabaoAgent icon..."
 if [ -f "${ICON_PATH}" ]; then
     ICONSET_DIR="${TMP_DIR}/ga-icon.iconset"
     mkdir -p "${ICONSET_DIR}"
