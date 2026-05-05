@@ -1,4 +1,4 @@
-import webview, threading, subprocess, sys, time, os, ctypes, atexit, socket, random
+﻿import webview, threading, subprocess, sys, time, os, ctypes, atexit, socket, random
 
 WINDOW_WIDTH, WINDOW_HEIGHT, RIGHT_PADDING, TOP_PADDING = 600, 900, 0, 100
 
