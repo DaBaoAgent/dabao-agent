@@ -1,4 +1,4 @@
-# launcher.pyw - GenericAgent 服务启动器
+﻿# launcher.pyw - DabaoAgent 服务启动器
 # 纯 tkinter + 标准库，零第三方依赖，跨平台
 import os, sys, socket, subprocess, threading
 import tkinter as tk
@@ -86,7 +86,7 @@ class ServiceManager:
 class LauncherApp:
     def __init__(self, root):
         self.root = root
-        self.root.title('DabaoAgent 启动器')
+        self.root.title('DabaoAgent Launcher')
         self.root.geometry('720x740')
         self.root.protocol('WM_DELETE_WINDOW', self.on_close)
 
@@ -102,8 +102,8 @@ class LauncherApp:
         # 标题行：左边标签，右边 Rescan 按钮
         header = ttk.Frame(self.root)
         header.pack(fill='x', padx=8, pady=(8, 0))
-        ttk.Label(header, text='服务', font=('', 10, 'bold')).pack(side='left')
-        ttk.Button(header, text='\u27f3 重新扫描', width=10,
+        ttk.Label(header, text='Services', font=('', 10, 'bold')).pack(side='left')
+        ttk.Button(header, text='\u27f3 Rescan', width=10,
                    command=self._rescan).pack(side='right')
 
         svc_frame = ttk.LabelFrame(self.root, padding=5)
@@ -117,7 +117,7 @@ class LauncherApp:
         self.name_labels = {}
         self._build_service_rows()
 
-        self.output_frame = ttk.LabelFrame(self.root, text='输出', padding=5)
+        self.output_frame = ttk.LabelFrame(self.root, text='Output', padding=5)
         self.output_frame.pack(fill='both', expand=True, padx=8, pady=(4, 8))
 
         self.output_text = tk.Text(
@@ -151,7 +151,7 @@ class LauncherApp:
             name_lbl.pack(side='left', fill='x', expand=True)
             self.name_labels[name] = name_lbl
 
-            st = '运行中' if running else '已停止'
+            st = 'running' if running else 'stopped'
             fg = 'green' if running else 'gray'
             lbl = ttk.Label(row, text=st, foreground=fg, width=10)
             lbl.pack(side='right')
@@ -180,7 +180,7 @@ class LauncherApp:
         svc_names = {s['name'] for s in self.services}
         if self.selected and self.selected not in svc_names:
             self.selected = None
-            self.output_frame.configure(text='输出')
+            self.output_frame.configure(text='Output')
 
     def _toggle(self, name, var, svc):
         if var.get():
@@ -199,7 +199,7 @@ class LauncherApp:
             else:
                 row.configure(bg='SystemButtonFace')
                 self.name_labels[n].configure(bg='SystemButtonFace')
-        self.output_frame.configure(text=f'输出 - {name}')
+        self.output_frame.configure(text=f'Output - {name}')
         self.root.after(50, self._refresh_output)
 
     def _refresh_output(self):
@@ -243,9 +243,9 @@ class LauncherApp:
             running = self.mgr.is_running(name)
             lbl = self.status_labels[name]
             if running:
-                lbl.configure(text='运行中', foreground='green')
+                lbl.configure(text='running', foreground='green')
             else:
-                lbl.configure(text='已停止', foreground='gray')
+                lbl.configure(text='stopped', foreground='gray')
                 if self.check_vars[name].get():
                     self.check_vars[name].set(False)
         self._refresh_output()
@@ -263,7 +263,7 @@ if __name__ == '__main__':
             import tkinter.messagebox as mb
             r = tk.Tk()
             r.withdraw()
-            mb.showinfo('启动器', '已在运行。')
+            mb.showinfo('Launcher', 'Already running.')
             r.destroy()
         except Exception:
             pass
