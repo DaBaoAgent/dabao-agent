@@ -1,183 +1,195 @@
-# 🖥️ DabaoAgent
+﻿<div align="center">
+<img src="assets/images/bar.jpg" width="880"/>
+</div>
 
-> 基于 **[GenericAgent](https://github.com)** 魔改的中文一键绿色使用包 —— 零配置、开箱即用的自主 AI Agent 框架。
+<h1 align="center">DabaoAgent — GenericAgent 中文一键绿色包</h1>
 
-DabaoAgent 是一个极简自进化自主 Agent 框架，支持文件读写、代码执行、浏览器自动化、多平台机器人（微信/QQ/飞书/钉钉/Telegram/Discord）等丰富能力。本项目在原版 GenericAgent 基础上进行了全面的中文本地化改造，并提供一键启动的绿色使用体验。
+<p align="center">
+  <a href="#about">关于本项目</a> |
+  <a href="#quick-start">快速开始</a> |
+  <a href="#api-config">API 配置</a> |
+  <a href="#advanced">高级用法</a> |
+  <a href="#faq">常见问题</a>
+</p>
 
-## ✨ 特性
+---
+<a name="about"></a>
+## 📌 关于本项目
 
-- 🚀 **一键启动** — 支持 Web UI、桌面窗口、命令行三种模式
-- 🌐 **多模型支持** — 兼容 OpenAI / Anthropic / DeepSeek / 智谱 / Kimi / MiniMax 等
-- 🔧 **物理级操作** — 文件读写、代码执行、浏览器 JS 注入、系统级干预
-- 💬 **多平台接入** — Telegram、QQ、飞书、企业微信、钉钉、Discord、微信公众号
-- 🇨🇳 **全面汉化** — Streamlit 工具栏、设置面板、界面文案完全中文化
-- 🔑 **界面配置** — 侧边栏直接填入 API Key，无需手动编辑配置文件
-- 🧠 **自进化记忆** — L0-L4 五级记忆体系，支持自主反思与定时任务
+**DabaoAgent** 是 [GenericAgent](https://github.com/lsdefine/GenericAgent)（lsdefine 原创）的**中文魔改一键绿色版本**。
 
-## 📦 快速开始
+> **GenericAgent** 是一个极简、可自我进化的自主 Agent 框架。核心仅 ~3K 行代码，通过 9 个原子工具 + ~100 行 Agent Loop，赋予任意 LLM 对本地计算机的系统级控制能力，覆盖浏览器、终端、文件系统、键鼠输入、屏幕视觉及移动设备（ADB）。
 
-### 环境要求
+**本版本做了什么：**
+- 🔤 **全部中文化**：README、配置模板、启动器标题等全部翻译为中文
+- 📦 **一键绿色部署**：下载/克隆 → 装依赖 → 填 Key → 启动，无需复杂配置
+- 🧹 **配置简化**：去除冗余注释，保留最实用的配置模板
+- 🚀 **开箱即用**：默认推荐 DeepSeek / Claude / OpenAI 等主流模型配置
 
-- Python >= 3.10，< 3.14
-- Windows / macOS / Linux
+**原版项目：** [lsdefine/GenericAgent](https://github.com/lsdefine/GenericAgent) | [arXiv 技术报告](https://arxiv.org/abs/2604.17091)
 
-### 1. 安装依赖
+---
+<a name="quick-start"></a>
+## 🚀 快速开始（4 步即可）
 
-```bash
-# 安装 uv（推荐，速度更快）
-pip install uv
+### 1️⃣ 安装依赖
 
-# 安装核心依赖
-uv pip install requests beautifulsoup4 bottle simple-websocket-server
-
-# 安装 Web UI（可选）
-uv pip install streamlit pywebview
+```powershell
+pip install requests streamlit pywebview
 ```
 
-或一键安装所有依赖：
+### 2️⃣ 配置 API Key
 
-```bash
-uv sync
+```powershell
+copy mykey_template.py mykey.py
 ```
 
-### 2. 配置 API 密钥
+### 3️⃣ 编辑 mykey.py，填入你的 API Key
 
-**方式一（推荐）：界面配置**
+打开 `mykey.py`，找到 `native_oai_config`（或 `native_claude_config`），填入你的凭据。
 
-启动后，在侧边栏 **🔑 API 密钥设置** 中直接填入 API Key、Base URL 和模型名称，点击保存即可。
-
-**方式二：文件配置**
-
-复制 `mykey_template.py` 为 `mykey.py`，编辑其中的 API 配置：
-
+**DeepSeek 示例：**
 ```python
-# mykey.py 示例（NativeOAISession — OpenAI 协议 + 原生工具调用）
 native_oai_config = {
-    'name': 'my-gpt',
-    'apikey': 'sk-你的API密钥',
-    'apibase': 'https://api.openai.com/v1',
-    'model': 'gpt-5.4',
+    'name': 'deepseek-v4-pro',
+    'apikey': 'sk-你的key',
+    'apibase': 'https://api.deepseek.com/v1',
+    'model': 'deepseek-v4-pro',
 }
 ```
 
-支持的后端类型：
+**Claude（CC switch 渠道）示例：**
+```python
+native_claude_config0 = {
+    'name': 'cc-relay-1',
+    'apikey': 'sk-user-你的key',
+    'apibase': 'https://你的渠道地址/claude/office',
+    'model': 'claude-opus-4-7',
+    'fake_cc_system_prompt': True,
+    'thinking_type': 'adaptive',
+}
+```
 
-| 配置变量关键字 | Session 类型 | 说明 |
+**OpenAI 示例：**
+```python
+native_oai_config = {
+    'name': 'gpt-native',
+    'apikey': 'sk-你的key',
+    'apibase': 'https://api.openai.com/v1',
+    'model': 'gpt-4o',
+}
+```
+
+### 4️⃣ 启动
+
+```powershell
+python launch.pyw
+```
+
+这会弹出一个独立的桌面聊天窗口（基于 pywebview + Streamlit），即可开始与 Agent 对话。
+
+---
+<a name="api-config"></a>
+## ⚙️ API 配置速查
+
+mykey.py 支持多种 LLM 配置，变量名决定 Session 类型：
+
+| 变量名包含 | 走什么 Session | 说明 |
 |---|---|---|
-| 含 `native` + `claude` | NativeClaudeSession | Anthropic 原生协议 |
-| 含 `native` + `oai` | NativeOAISession | OpenAI 原生协议 |
-| 含 `mixin` | MixinSession | 多 Session 故障转移 |
+| `native` + `claude` | NativeClaudeSession | Anthropic 原生协议（推荐） |
+| `native` + `oai` | NativeOAISession | OpenAI 兼容协议（DeepSeek/GPT/Gemini） |
+| `mixin` | MixinSession | 多模型故障转移 |
 
-### 3. 启动
+### 推荐：MIXIN 故障转移
 
-```bash
-# 🌐 Web UI 模式（推荐）
-uv run python launch.pyw
-
-# 💻 桌面窗口模式（双击运行）
-start_ga_ui.bat       # 或双击 GenericAgent.bat
-
-# ⌨️ 命令行模式
-uv run python agentmain.py
+```python
+mixin_config = {
+    'llm_nos': ['deepseek-v4-pro', 'gpt-native'],  # 按优先级尝试
+    'max_retries': 10,
+    'base_delay': 0.5,
+}
 ```
 
-## 🏗️ 项目结构
+第一个模型失败后自动切下一个，省心。
 
-```
-DabaoAgent/
-├── agentmain.py          # 核心 Agent 入口
-├── agent_loop.py         # Agent 运行主循环
-├── llmcore.py            # LLM 抽象层（多后端支持）
-├── ga.py                 # 工具处理器（文件/代码/浏览器等）
-├── simphtml.py           # HTML 简化（AI 阅读用）
-├── TMWebDriver.py        # 浏览器 CDP 自动化
-├── launch.pyw            # 桌面窗口启动器
-├── hub.pyw               # 服务管理面板
-├── mykey_template.py     # API 密钥配置模板
-├── frontends/            # 前端界面
-│   ├── stapp.py          # Streamlit Web UI v1
-│   ├── stapp2.py         # Streamlit Web UI v2（Anthropic 主题）
-│   ├── qtapp.py          # Qt 桌面应用
-│   ├── tgapp.py          # Telegram Bot
-│   ├── wechatapp.py      # 微信公众号 Bot
-│   ├── qqapp.py          # QQ Bot
-│   ├── fsapp.py          # 飞书 Bot
-│   ├── wecomapp.py       # 企业微信 Bot
-│   ├── dingtalkapp.py    # 钉钉 Bot
-│   ├── dcapp.py          # Discord Bot
-│   └── skins/            # 桌面宠物皮肤
-├── memory/               # Agent 记忆体系（L0-L4）
-├── reflect/              # 自主反思与定时任务
-├── assets/               # 静态资源（提示词、工具定义等）
-├── plugins/              # 可选插件（Langfuse 追踪等）
-└── sche_tasks/           # 定时任务定义
+---
+<a name="advanced"></a>
+## 🔧 高级用法
+
+### 启动参数
+
+```powershell
+python launch.pyw --tg        # 同时启动 Telegram Bot
+python launch.pyw --qq        # 同时启动 QQ Bot
+python launch.pyw --feishu    # 同时启动飞书 Bot
+python launch.pyw --wecom     # 同时启动企业微信 Bot
+python launch.pyw --dingtalk  # 同时启动钉钉 Bot
+python launch.pyw --sched     # 启动计划任务调度器
+python launch.pyw --llm_no 1  # 指定使用第 2 个 LLM 配置
 ```
 
-## 🔌 支持的多平台机器人
+### 其他前端
 
-| 平台 | 配置项 | 启动参数 |
-|---|---|---|
-| Telegram | `tg_bot_token`, `tg_allowed_users` | `--tg` |
-| QQ | `qq_app_id`, `qq_app_secret` | `--qq` |
-| 飞书 | `fs_app_id`, `fs_app_secret` | `--feishu` |
-| 企业微信 | `wecom_bot_id`, `wecom_secret` | `--wecom` |
-| 钉钉 | `dingtalk_client_id`, `dingtalk_client_secret` | `--dingtalk` |
-
-示例：
-```bash
-uv run python launch.pyw --tg --qq
+```powershell
+python frontends/qtapp.py          # Qt 桌面应用
+python frontends/wechatapp.py      # 微信 Bot（扫码登录）
+streamlit run frontends/stapp2.py  # 另一种 Streamlit UI
 ```
 
-## ⌨️ 命令行用法
+### 聊天命令
 
-```bash
-# 交互式 REPL
-uv run python agentmain.py --verbose
+在对话框中输入：
 
-# 一次性任务
-uv run python agentmain.py --task my_task
+| 命令 | 说明 |
+|---|---|
+| `/new` | 开启新对话并清空上下文 |
+| `/continue` | 列出可恢复的对话 |
+| `/continue N` | 恢复第 N 个对话 |
 
-# 反射/定时任务模式
-uv run python agentmain.py --reflect reflect/scheduler.py
+### 支持的模型平台
 
-# 直接输入 prompt
-uv run python agentmain.py --input "帮我写一个排序算法"
+- **DeepSeek**：`https://api.deepseek.com/v1`，模型 `deepseek-chat` / `deepseek-v4-pro`
+- **Claude（官方）**：`https://api.anthropic.com`，API Key 以 `sk-ant-` 开头
+- **Claude（CC switch 渠道）**：第三方中转，需设 `fake_cc_system_prompt=True`
+- **OpenAI**：`https://api.openai.com/v1`，模型 `gpt-4o` / `gpt-5` 等
+- **智谱 GLM**：`https://open.bigmodel.cn/api/anthropic`
+- **MiniMax**：`https://api.minimaxi.com/anthropic`
+- **Kimi**：`https://api.kimi.com/coding`
+- **OpenRouter**：`https://openrouter.ai/api/v1`，多模型中继
 
-# 后台运行
-uv run python agentmain.py --bg
-```
+---
+<a name="faq"></a>
+## ❓ 常见问题
 
-### 运行时可调参数
+**Q: 第一次启动需要做什么？**
+A: 安装依赖 → `copy mykey_template.py mykey.py` → 编辑 mykey.py 填 API Key → `python launch.pyw`
 
-在 REPL 中通过 `/session.*` 命令实时调整推理参数：
+**Q: API Key 填在哪里？**
+A: 打开 `mykey.py`，找到 `native_oai_config` 或 `native_claude_config`，把 `apikey` 和 `apibase` 填好。
 
-```
-/session.reasoning_effort=high
-/session.thinking_type=adaptive
-/session.temperature=0.3
-/session.max_tokens=32768
-```
+**Q: 可以用哪些模型？**
+A: 任何 OpenAI 兼容接口或 Anthropic 接口的模型都行，包括 DeepSeek、Claude、GPT、Gemini、智谱、Kimi、MiniMax 等。
 
-## 🎨 界面功能
+**Q: mykey.py 会被上传到 Git 吗？**
+A: 不会。`.gitignore` 已排除此文件，安全。
 
-- **LLM 链路切换**：侧边栏下拉切换可用模型
-- **API 密钥设置**：界面直接填入密钥，自动保存并热加载
-- **桌面宠物**：可爱的桌面小精灵，显示任务状态
-- **自主行动**：离开 30 分钟后自动执行预设任务
-- **工具注入**：一键重新注入工具示范历史
-- **继续对话**：`/continue` 命令恢复历史会话
+**Q: 什么是"自我进化"？**
+A: Agent 每解决一个新任务，会把执行路径固化为 Skill 存入记忆层，下次同类任务直接调用。使用越久，专属技能树越丰富。
 
-## 🤝 致谢
+---
+## 📊 原版特性
 
-本项目基于 [GenericAgent](https://github.com) 框架进行魔改，感谢原作者的杰出工作。
+| 特性 | 说明 |
+|---|---|
+| **代码量** | ~3K 行核心代码 |
+| **浏览器控制** | 注入真实浏览器（保留登录态） |
+| **OS 控制** | 键鼠、视觉、ADB |
+| **自我进化** | 自主生长 Skill 和工具 |
+| **Token 效率** | 上下文窗口不到 30K |
 
-改动内容包括：
-- 全面中文本地化（界面、提示词、工具定义）
-- 新增侧边栏 API 密钥配置界面
-- 优化无配置时的引导流程
-- 添加桌面宠物集成
-- Streamlit 工具栏/设置面板完全汉化
+---
+## 📄 许可
 
-## 📄 开源协议
+MIT License — 原版 [lsdefine/GenericAgent](https://github.com/lsdefine/GenericAgent) 使用 MIT 协议。
 
-MIT License
+*声明：本项目是 GenericAgent 的中文魔改一键版本，核心代码归属 lsdefine。除 DintalClaw 外，目前未官方授权任何机构、组织或个人以 DabaoAgent 名义从事商业活动。*
