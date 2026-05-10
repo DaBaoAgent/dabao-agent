@@ -1,0 +1,7 @@
+[x] 产出 | QQ Bot看门狗脚本：监控bot进程+自动重启+7天日志轮转 | 验收：进程挂后30s内自动拉起，日志有重启记录
+[ ] 产出 | Git整理提交：email_sender.py+bot修复+temp改动→commit | 验收：git log显示新提交，关键改动已版本化
+[ ] 冲浪 | 能力树实测：tmwebdriver+ljqCtrl+OCR+vision 4技能最小可用验证 | 验收：每技能1个实测用例通过
+[ ] 环境 | Bot收件箱检查：读qqbot/inbox是否有积压消息，统计最近24h收/发数 | 验收：输出收件箱统计报告
+[ ] 产出 | 邮件Bot联动：QQ收到"发邮件"指令→调email_sender自动发送 | 验收：QQ发指令→邮件实际发出
+[ ] 环境 | 31份报告整合：提取跨报告共性发现，生成1页摘要索引 | 验收：产出reports_index.md ≤ 3KB
+[ ] 冲浪 | 小众工具挖掘：GitHub搜QQ-Bot watchdog/进程守护开源方案，实测1-2个 | 验收：至少1个可用方案附实测结论

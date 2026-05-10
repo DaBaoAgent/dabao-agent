@@ -1,7 +1,9 @@
-temp/
+temp/*
 tmp/
 
-# Key project files in temp (exceptions)
+# QQ Bot + email_sender (key project files)
+!temp/qqbot/
+temp/qqbot/*
 !temp/qqbot/watchdog.py
 !temp/qqbot/bot.py
 !temp/qqbot/msg_queue.py
