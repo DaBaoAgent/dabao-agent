@@ -1,6 +1,15 @@
 temp/
 tmp/
 
+# Key project files in temp (exceptions)
+!temp/qqbot/watchdog.py
+!temp/qqbot/bot.py
+!temp/qqbot/msg_queue.py
+!temp/qqbot/qq_agent.py
+!temp/qqbot/start_hidden.vbs
+!temp/email_sender.py
+!temp/TODO.txt
+
 __pycache__/
 *.py[cod]
 *$py.class
