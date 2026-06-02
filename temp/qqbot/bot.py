@@ -8,10 +8,11 @@ QQ Bot WebSocket客户端 - 连接QQ开放平台
 import os, sys, json, time, ssl, threading, logging, signal
 import urllib.request
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from msg_queue import put_inbox, list_outbox, mark_sent, get_pending, mark_done
-
 BASE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, BASE)
+from msg_queue import put_inbox, list_outbox, mark_sent, get_pending, mark_done
+sys.path.insert(0, os.path.dirname(BASE))
+from email_sender import send_email
 LOG_DIR = os.path.join(BASE, "logs")
 HISTORY_FILE = os.path.join(BASE, "history.txt")
 
@@ -150,7 +151,18 @@ def inbox_worker(bot):
                 with open(HISTORY_FILE, "a", encoding="utf-8") as f:
                     f.write(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] [{username}] {content}\n")
                 # 生成回复
-                reply_text = f"收到！你说的是：{content}\n\n（这是自动回复，后续将接入AI助手）"
+                if "发邮件" in content:
+                    img_dir = os.path.join(BASE, "serve")
+                    imgs = sorted([os.path.join(img_dir, f) for f in os.listdir(img_dir)
+                                   if f.lower().endswith(('.png','.jpg','.jpeg'))])
+                    if imgs:
+                        result = send_email(to="120112121@qq.com", subject="QQ Bot发来的图片",
+                                           body=f"<p>来自QQ用户 {username} 的请求</p>", attachments=imgs[:5])
+                        reply_text = f"✅ 邮件发送结果：{result.get('msg','未知')}"
+                    else:
+                        reply_text = "❌ 未找到可发送的图片"
+                else:
+                    reply_text = f"收到！你说的是：{content}\n\n（这是自动回复，后续将接入AI助手）"
                 log.info(f"回复 {username}: {reply_text[:40]}")
                 bot.send(openid, reply_text)
                 mark_done(r["file"])
