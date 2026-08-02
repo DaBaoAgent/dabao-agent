@@ -1,3 +1,11 @@
+<!-- README-PROMO:START -->
+<p align="center">
+  <img src="assets/readme/hero.webp" alt="DabaoAgent：GenericAgent 自主智能体中文一键绿色包" width="100%" />
+  <img src="assets/readme/workflow.webp" alt="DabaoAgent 工作流：安装依赖、配置模型、启动对话和沉淀 Skill" width="100%" />
+  <img src="assets/readme/beginner.webp" alt="DabaoAgent 新手上手：四步开箱即用，中文界面支持多模型" width="100%" />
+</p>
+<!-- README-PROMO:END -->
+
 ﻿<div align="center">
 <img src="assets/images/bar.jpg" width="880"/>
 </div>
